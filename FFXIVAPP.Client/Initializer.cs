@@ -773,7 +773,11 @@ namespace FFXIVAPP.Client
                     Constants.IsOpen = false;
                 }
             }
-            Constants.ProcessIDs = Process.GetProcessesByName("ffxiv");
+            Process[] dx9Processes = Process.GetProcessesByName("ffxiv");
+            Process[] dx11Processes = Process.GetProcessesByName("ffxiv_dx11");
+            Constants.ProcessIDs = new Process[dx9Processes.Length + dx11Processes.Length];
+            Array.Copy(dx9Processes, Constants.ProcessIDs, dx9Processes.Length);
+            Array.Copy(dx11Processes, 0, Constants.ProcessIDs, dx9Processes.Length, dx11Processes.Length);
             if (Constants.ProcessIDs.Length == 0)
             {
                 Constants.IsOpen = false;
